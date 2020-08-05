@@ -1,19 +1,25 @@
 const axios = require('axios')
+const querystring = require('querystring')
 
-const orders_url = 'https://api.kraken.com/0/public/Depth'
-const trades_url = 'https://api.kraken.com/0/public/Trades'
-const pair = 'ETHUSD'
-
-async function getOrders() {
-    try {
-        const { data } = await axios.get(orders_url + `?pair=${pair}`)
-        if (data.error && data.error.length !== 0) {
-            console.error(data.error)
-        }
-        console.log(data.result)
-    } catch (error) {
-        console.error(error)
+async function apiCall (baseUrl, params) {
+  const url = baseUrl + '?' + querystring.stringify(params)
+  try {
+    const { data } = await axios.get(url)
+    if (data.error && data.error.length !== 0) {
+      console.error(data.error)
+    }
+    if (data.result) { console.log(data.result) }
+  } catch (error) {
+    console.error(error)
   }
 }
 
-getOrders()
+const ordersUrl = 'https://api.kraken.com/0/public/Depth'
+const tradesUrl = 'https://api.kraken.com/0/public/Trades'
+const pairs = ['ETHUSD', 'XBTUSD']
+
+Promise.all(pairs.map(pair => apiCall(ordersUrl, { pair: pair })))
+Promise.all(pairs.map(pair => apiCall(tradesUrl, {
+  pair: pair,
+  since: '1596669235354531793'
+})))
