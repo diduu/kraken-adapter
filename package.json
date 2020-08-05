@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/diduu/kraken-adapter/issues"
   },
-  "homepage": "https://github.com/diduu/kraken-adapter#readme"
+  "homepage": "https://github.com/diduu/kraken-adapter#readme",
+  "dependencies": {
+    "axios": "^0.19.2"
+  }
 }
