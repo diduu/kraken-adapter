@@ -1,0 +1,19 @@
+{
+  "name": "kraken-adapter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diduu/kraken-adapter.git"
+  },
+  "author": "edouard azoulai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diduu/kraken-adapter/issues"
+  },
+  "homepage": "https://github.com/diduu/kraken-adapter#readme"
+}
