@@ -1,3 +1,11 @@
+#!/usr/bin/env node
+
+// Order book monitor for the kraken exchange
+// Usage: ./order_book.js symbol depth
+
+// https://support.kraken.com/hc/en-us/articles/360027821131-How-to-maintain-a-valid-order-book-
+// https://support.kraken.com/hc/en-us/articles/360027677512-Example-order-book-code-Python-2-
+
 const W3CWebSocket = require('websocket').w3cwebsocket
 const fs = require('fs')
 
@@ -34,10 +42,12 @@ function api_update_book (side, data) {
 }
 
 const argv = process.argv.slice(1)
+let name = argv[0].split('/')
+name = name[name.length - 1]
 
 if (argv.length < 3) {
-  console.log(`Usage: ${argv[0]} symbol depth`)
-  console.log(`Example: ${argv[0]} xbt/usd 10`)
+  console.log(`Usage: ${name} symbol depth`)
+  console.log(`Example: ${name} xbt/usd 10`)
   process.exit(1)
 }
 
