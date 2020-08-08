@@ -2,8 +2,8 @@ const axios = require('axios')
 const querystring = require('querystring')
 const fs = require('fs')
 
-async function apiCall (baseUrl, params) {
-  const url = baseUrl + '?' + querystring.stringify(params)
+async function apiCall (base_url, params) {
+  const url = base_url + '?' + querystring.stringify(params)
   try {
     const { data } = await axios.get(url)
     if (data.error && data.error.length !== 0) {
@@ -17,9 +17,9 @@ async function apiCall (baseUrl, params) {
   }
 }
 
-const ordersUrl = 'https://api.kraken.com/0/public/Depth'
-const tradesUrl = 'https://api.kraken.com/0/public/Trades'
-const pairs = require('./asset_pairs.json')
+const orders_url = 'https://api.kraken.com/0/public/Depth'
+const trades_url = 'https://api.kraken.com/0/public/Trades'
+const pairs = ['XBTUSD'] // require('./asset_pairs.json')
 
-Promise.all(pairs.map(pair => apiCall(ordersUrl, { pair: pair })))
-Promise.all(pairs.map(pair => apiCall(tradesUrl, { pair: pair })))
+Promise.all(pairs.map(pair => apiCall(orders_url, { pair: pair })))
+Promise.all(pairs.map(pair => apiCall(trades_url, { pair: pair })))
