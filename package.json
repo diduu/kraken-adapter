@@ -18,6 +18,7 @@
   "homepage": "https://github.com/diduu/kraken-adapter#readme",
   "dependencies": {
     "axios": "^0.19.2",
+    "querystring": "^0.2.0",
     "websocket": "^1.0.31"
   },
   "devDependencies": {

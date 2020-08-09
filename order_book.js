@@ -11,7 +11,7 @@ const fs = require('fs')
 
 function api_output_book () {
   // console.log(api_book)
-  fs.writeFileSync('data.json', JSON.stringify(api_book))
+  fs.writeFileSync('order_book.json', JSON.stringify(api_book))
 }
 
 function api_update_book (side, data) {

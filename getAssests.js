@@ -1,3 +1,7 @@
+#!/usr/bin/env node
+
+// Fetch the list of asset pairs available on the kraken exchange.
+
 const axios = require('axios')
 const fs = require('fs')
 
