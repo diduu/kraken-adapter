@@ -26,12 +26,15 @@ async function apiCall (base_url, params) {
 async function getTrades (pair, since, trades = []) {
   const TRADES_URL = 'https://api.kraken.com/0/public/Trades'
 
+  // The function does not handle exceptions by design.
   const resp = await apiCall(TRADES_URL, { pair: pair, since: since })
   const last = resp.last
   delete resp.last
+  // Keep just the array from the object.
   const new_trades = resp[Object.keys(resp)[0]]
   const merged = [...trades, ...new_trades]
 
+  // Make api calls until no new data is being sent.
   if (last !== since) {
     return await getTrades(pair, last, merged)
   } else {
@@ -63,8 +66,6 @@ function writeOutput ([pair, last, trades]) {
   if (!fs.existsSync('./trades/')) { fs.mkdirSync('trades') }
   fs.writeFileSync(trades_fn, JSON.stringify(new_trades))
 }
-
-module.exports = { getTrades, writeOutput }
 
 if (require.main === module) {
   const argv = process.argv.slice(1)
@@ -103,8 +104,11 @@ Note: you can use a json file containing a list of pairs instead of <pair>.`
     ? JSON.parse(fs.readFileSync(last_fn))
     : {}
 
+  // Bind each pair to its id in an object if it exists.
   const last = Object.fromEntries(pairs.map(pair => [pair, ids[pair] || '']))
 
+  // If writing to file becomes too slow, we could make that asynchronous as well.
+  // Here, it was the api calls that were causing the biggest waiting time.
   Promise.all(pairs.map(pair => getTrades(pair, last[pair])))
     .then(results => results.forEach(result => output_function(result)))
     .catch(e => console.error(e))

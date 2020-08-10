@@ -3,6 +3,9 @@
 // Order book monitor for the kraken exchange
 // Usage: ./order_book.js symbol depth
 
+// Most of the functions in this file are changing the format of the received data.
+// They are adapted from the python example the exchange provided.
+// Check the links below if you want to understand how we use the api here.
 // https://support.kraken.com/hc/en-us/articles/360027821131-How-to-maintain-a-valid-order-book-
 // https://support.kraken.com/hc/en-us/articles/360027677512-Example-order-book-code-Python-2-
 
@@ -10,7 +13,6 @@ const W3CWebSocket = require('websocket').w3cwebsocket
 const fs = require('fs')
 
 function api_output_book () {
-  // console.log(api_book)
   const file_name = api_symbol.replace('/', '')
   if (!fs.existsSync('./orders/')) { fs.mkdirSync('orders') }
   fs.writeFileSync(`orders/${file_name}.json`, JSON.stringify(api_book))
@@ -76,7 +78,7 @@ let api_data = `{"event":"subscribe", "subscription":{"name":"${api_feed}", "dep
 
 ws.onopen = () => {
   try {
-    ws.send(api_data)
+    ws.send(api_data) // Initial subscription.
   } catch (error) {
     console.log(`Feed subscription failed ${error}`)
     ws.close()
@@ -88,6 +90,7 @@ ws.onerror = () => console.log('Connection Error')
 
 ws.onmessage = (e) => {
   api_data = JSON.parse(e.data)
+  // The data we care about is always an array.
   if (Array.isArray(api_data)) {
     if ('as' in api_data[1]) {
       api_update_book('ask', api_data[1].as)
@@ -103,6 +106,6 @@ ws.onmessage = (e) => {
     }
     api_output_book()
   } else {
-    console.log(api_data)
+    console.log(api_data) // This would be error and information messages.
   }
 }
