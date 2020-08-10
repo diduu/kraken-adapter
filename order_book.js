@@ -11,7 +11,9 @@ const fs = require('fs')
 
 function api_output_book () {
   // console.log(api_book)
-  fs.writeFileSync('order_book.json', JSON.stringify(api_book))
+  const file_name = api_symbol.replace('/', '')
+  if (!fs.existsSync('./orders/')) { fs.mkdirSync('orders') }
+  fs.writeFileSync(`orders/${file_name}.json`, JSON.stringify(api_book))
 }
 
 function api_update_book (side, data) {
@@ -100,5 +102,7 @@ ws.onmessage = (e) => {
       }
     }
     api_output_book()
+  } else {
+    console.log(api_data)
   }
 }
