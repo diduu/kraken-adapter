@@ -6,6 +6,8 @@ The requirements of the project were as follow:
 - Run for whole days on Linux 
 - Handle situation like internet disconnection, program crashes, etc.
 
+Run `npm install` in the project directory to install the necessary dependencies.
+
 ## The asset pairs
 
 Whether we are looking for orders or trades, we need to specify an asset pair. In order to get the list of availbale asset pairs, run `./getAssests.js` and you will get two json files:
